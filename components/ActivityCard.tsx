@@ -1,32 +1,16 @@
 // components/ActivityCard.tsx
-
-type Activity = {
-  id: string;
+interface ActivityCardProps {
   prompt: string;
   result: string;
   provider: string;
-  created_at: string;
-};
+}
 
-type ActivityCardProps = {
-  activity: Activity;
-};
-
-export default function ActivityCard({ activity }: ActivityCardProps) {
+export default function ActivityCard({ prompt, result, provider }: ActivityCardProps) {
   return (
-    <div className="p-4 bg-white rounded-2xl shadow-md">
-      <p className="text-gray-800">
-        <b>Prompt:</b> {activity.prompt}
-      </p>
-      <p className="text-gray-800">
-        <b>Result:</b> {activity.result}
-      </p>
-      <p className="text-gray-600 text-sm">
-        <b>Provider:</b> {activity.provider}
-      </p>
-      <p className="text-gray-400 text-xs">
-        <b>Created:</b> {new Date(activity.created_at).toLocaleString()}
-      </p>
+    <div className="bg-white p-4 rounded-xl shadow-md">
+      <p><b>Prompt:</b> {prompt}</p>
+      <p><b>Result:</b> {result}</p>
+      <p><b>Provider:</b> {provider}</p>
     </div>
   );
 }

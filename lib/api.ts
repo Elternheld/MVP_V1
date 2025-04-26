@@ -1,46 +1,24 @@
-import { supabase } from "@/lib/supabase";
+// lib/api.ts
+import { supabase } from "./supabase";
 
 export async function generateActivity(prompt: string, provider: string) {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const res = await fetch("/api/generate-activity", {
+  const response = await fetch("/api/generate-activity", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      prompt,
-      provider,
-      user_id: user?.id,
-    }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt, provider }),
   });
-
-  if (!res.ok) throw new Error("Fehler beim Erstellen der Aktivität");
-
-  return res.json();
+  const data = await response.json();
+  return data.result;
 }
 
 export async function getOwnActivities() {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const { data, error } = await supabase
-    .from("activities")
-    .select("*")
-    .eq("user_id", user?.id)
-    .order("created_at", { ascending: false });
-
+  const { data, error } = await supabase.from("activities").select("*").order("created_at", { ascending: false });
   if (error) throw error;
   return data;
 }
 
 export async function getAllActivities() {
-  const res = await fetch("/api/admin/get-activities");
-
-  if (!res.ok) throw new Error("Fehler beim Abrufen der Aktivitäten");
-
-  return res.json();
+  const { data, error } = await supabase.from("activities").select("*").order("created_at", { ascending: false });
+  if (error) throw error;
+  return data;
 }

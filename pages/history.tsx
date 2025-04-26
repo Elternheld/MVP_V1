@@ -1,9 +1,7 @@
-export const dynamic = "force-dynamic";
-
+// pages/history.tsx
 import { useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
 import { getOwnActivities } from "@/lib/api";
-import { ActivityCard } from "@/components/ActivityCard";
+import ActivityCard from "@/components/ActivityCard";
 
 export default function HistoryPage() {
   const { user } = useUser();
@@ -11,20 +9,20 @@ export default function HistoryPage() {
 
   useEffect(() => {
     async function fetchActivities() {
-      if (user?.id) {
-        const data = await getOwnActivities();
-        setActivities(data);
-      }
+      const data = await getOwnActivities();
+      setActivities(data);
     }
     fetchActivities();
-  }, [user]);
+  }, []);
+
+  if (!user) return <div>Loading...</div>;
 
   return (
-    <main className="min-h-screen bg-[#FFF6EC] p-6">
-      <h1 className="text-3xl font-bold text-[#2E2E2E] mb-6">Meine Aktivitäten</h1>
+    <main className="p-6 bg-[#FFF6EC] min-h-screen">
+      <h1 className="text-3xl font-bold text-[#2E2E2E] mb-4">Dein Verlauf</h1>
       <div className="grid grid-cols-1 gap-4">
         {activities.map((activity) => (
-          <ActivityCard key={activity.id} activity={activity} />
+          <ActivityCard key={activity.id} {...activity} />
         ))}
       </div>
     </main>
