@@ -1,44 +1,30 @@
+export const dynamic = "force-dynamic";
+
+import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { getAllActivities } from "@/lib/api";
-import { useUser } from "@clerk/nextjs";
+import { ActivityCard } from "@/components/ActivityCard";
 
-type Activity = {
-  id: string;
-  prompt: string;
-  result: string;
-  provider: string;
-};
-
-const ADMIN_EMAIL = "elternheld@gmail.com";
-
-export default function Admin() {
+export default function AdminPage() {
   const { user } = useUser();
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities, setActivities] = useState<any[]>([]);
 
   useEffect(() => {
-    async function fetchAll() {
-      if (user?.primaryEmailAddress?.emailAddress === ADMIN_EMAIL) {
+    async function fetchActivities() {
+      if (user?.id) {
         const data = await getAllActivities();
         setActivities(data);
       }
     }
-    fetchAll();
+    fetchActivities();
   }, [user]);
-
-  if (!user || user.primaryEmailAddress?.emailAddress !== ADMIN_EMAIL) {
-    return <div className="p-6">Kein Zugriff.</div>;
-  }
 
   return (
     <main className="min-h-screen bg-[#FFF6EC] p-6">
-      <h1 className="text-3xl text-[#2E2E2E] font-bold mb-6">Admin: Alle Aktivitäten</h1>
-      <div className="flex flex-col gap-4">
+      <h1 className="text-3xl font-bold text-[#2E2E2E] mb-6">Admin Übersicht</h1>
+      <div className="grid grid-cols-1 gap-4">
         {activities.map((activity) => (
-          <div key={activity.id} className="p-4 bg-white rounded-xl shadow-md">
-            <p><b>Prompt:</b> {activity.prompt}</p>
-            <p><b>Result:</b> {activity.result}</p>
-            <p><b>Provider:</b> {activity.provider}</p>
-          </div>
+          <ActivityCard key={activity.id} activity={activity} />
         ))}
       </div>
     </main>

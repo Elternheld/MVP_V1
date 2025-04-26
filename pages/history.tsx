@@ -1,42 +1,30 @@
-"use client";
 export const dynamic = "force-dynamic";
 
+import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { getOwnActivities } from "@/lib/api";
 import { ActivityCard } from "@/components/ActivityCard";
-import { useUser } from "@clerk/nextjs";
-
-type Activity = {
-  id: string;
-  prompt: string;
-  result: string;
-  provider: string;
-};
 
 export default function HistoryPage() {
   const { user } = useUser();
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities, setActivities] = useState<any[]>([]);
 
   useEffect(() => {
-    async function fetchOwn() {
-      if (user) {
+    async function fetchActivities() {
+      if (user?.id) {
         const data = await getOwnActivities();
         setActivities(data);
       }
     }
-    fetchOwn();
+    fetchActivities();
   }, [user]);
 
   return (
     <main className="min-h-screen bg-[#FFF6EC] p-6">
-      <h1 className="text-3xl text-[#2E2E2E] font-bold mb-6">Dein Verlauf</h1>
-      <div className="flex flex-col gap-4">
+      <h1 className="text-3xl font-bold text-[#2E2E2E] mb-6">Meine Aktivitäten</h1>
+      <div className="grid grid-cols-1 gap-4">
         {activities.map((activity) => (
-          <ActivityCard
-            key={activity.id}
-            prompt={activity.prompt}
-            result={activity.result}
-          />
+          <ActivityCard key={activity.id} activity={activity} />
         ))}
       </div>
     </main>
