@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
@@ -19,11 +20,11 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#FFF6EC] p-6">
-      <h1 className="text-3xl text-[#2E2E2E] font-bold mb-6">ElternHeld Generator</h1>
+      <h1 className="text-3xl font-bold text-[#2E2E2E] mb-6">ElternHeld Generator</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-xl mx-auto">
         <textarea
           className="p-4 rounded-xl border border-gray-300"
-          placeholder="Schreibe hier deinen Prompt..."
+          placeholder="Dein Prompt..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
         />
@@ -42,6 +43,7 @@ export default function Home() {
           Generieren
         </button>
       </form>
+
       {result && (
         <div className="mt-10 p-6 bg-white rounded-xl shadow-md">
           <h2 className="text-2xl font-bold mb-4">Antwort:</h2>

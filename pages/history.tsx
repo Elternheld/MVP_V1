@@ -1,6 +1,7 @@
 "use client";
+export const dynamic = "force-dynamic";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getOwnActivities } from "@/lib/api";
 import { ActivityCard } from "@/components/ActivityCard";
 import { useUser } from "@clerk/nextjs";
@@ -12,23 +13,23 @@ type Activity = {
   provider: string;
 };
 
-export default function History() {
+export default function HistoryPage() {
   const { user } = useUser();
   const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
-    async function fetchActivities() {
+    async function fetchOwn() {
       if (user) {
         const data = await getOwnActivities();
         setActivities(data);
       }
     }
-    fetchActivities();
+    fetchOwn();
   }, [user]);
 
   return (
     <main className="min-h-screen bg-[#FFF6EC] p-6">
-      <h1 className="text-3xl text-[#2E2E2E] font-bold mb-6">Mein Verlauf</h1>
+      <h1 className="text-3xl text-[#2E2E2E] font-bold mb-6">Dein Verlauf</h1>
       <div className="flex flex-col gap-4">
         {activities.map((activity) => (
           <ActivityCard
