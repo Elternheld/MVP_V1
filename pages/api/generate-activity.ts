@@ -20,11 +20,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    let result = "";
+    let result: string = "";
     if (provider === "openai") {
-      result = await getOpenAIResponse(prompt);
+      result = (await getOpenAIResponse(prompt)) ?? "";
     } else {
-      result = await getGeminiResponse(prompt);
+      result = (await getGeminiResponse(prompt)) ?? "";
     }
 
     await supabase.from("activities").insert([

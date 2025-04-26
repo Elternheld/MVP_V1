@@ -2,11 +2,18 @@ import { useEffect, useState } from "react";
 import { getAllActivities } from "@/lib/api";
 import { useUser } from "@clerk/nextjs";
 
+type Activity = {
+  id: string;
+  prompt: string;
+  result: string;
+  provider: string;
+};
+
 const ADMIN_EMAIL = "elternheld@gmail.com";
 
 export default function Admin() {
   const { user } = useUser();
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
     async function fetchAll() {
