@@ -3,9 +3,16 @@ import { getOwnActivities } from "@/lib/api";
 import { ActivityCard } from "@/components/ActivityCard";
 import { useUser } from "@clerk/nextjs";
 
+type Activity = {
+  id: string;
+  prompt: string;
+  result: string;
+  provider: string;
+};
+
 export default function History() {
   const { user } = useUser();
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
     async function fetchActivities() {
@@ -22,7 +29,11 @@ export default function History() {
       <h1 className="text-3xl text-[#2E2E2E] font-bold mb-6">Mein Verlauf</h1>
       <div className="flex flex-col gap-4">
         {activities.map((activity) => (
-          <ActivityCard key={activity.id} prompt={activity.prompt} result={activity.result} />
+          <ActivityCard
+            key={activity.id}
+            prompt={activity.prompt}
+            result={activity.result}
+          />
         ))}
       </div>
     </main>
