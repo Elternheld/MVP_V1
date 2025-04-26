@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { useState, useEffect } from "react";
 import { getOwnActivities } from "@/lib/api";
 import { ActivityCard } from "@/components/ActivityCard";
