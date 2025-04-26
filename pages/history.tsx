@@ -1,5 +1,4 @@
-export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
+"use client";
 
 import { useState, useEffect } from "react";
 import { getOwnActivities } from "@/lib/api";

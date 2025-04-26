@@ -1,5 +1,4 @@
-export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
+"use client";
 
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
