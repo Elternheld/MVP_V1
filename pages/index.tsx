@@ -13,7 +13,7 @@ export default function Home() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!prompt) return;
-    const generated = await generateActivity(prompt, provider, user?.id);
+    const generated = await generateActivity(prompt, provider);
     setResult(generated);
   }
 
